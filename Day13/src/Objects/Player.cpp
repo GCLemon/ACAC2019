@@ -13,6 +13,9 @@ Player::Player()
 
     // オブジェクトの描画位置の設定
     SetPosition(Vector2DF(320, 360));
+
+    // 当たり判定の半径の設定
+    Radius = GetTexture()->GetSize().X * 0.125f;
 }
 
 void Player::OnUpdate()

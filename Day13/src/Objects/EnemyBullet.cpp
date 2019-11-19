@@ -1,4 +1,5 @@
 #include "EnemyBullet.hpp"
+#include "Player.hpp"
 
 EnemyBullet::EnemyBullet(Vector2DF position, Vector2DF velocity)
 {
@@ -13,12 +14,34 @@ EnemyBullet::EnemyBullet(Vector2DF position, Vector2DF velocity)
     // オブジェクトの描画位置の設定
     SetPosition(position);
 
-    // 擲弾の速度の設定
+    // 当たり判定の半径の設定
+    Radius = GetTexture()->GetSize().X * 0.5f;
+
+    // 敵弾の速度の設定
     Velocity = velocity;
 }
 
 void EnemyBullet::OnUpdate()
 {
+    // 当たり判定を行う.
+    bool is_shoot = false;
+    for(auto obj : GetLayer()->GetObjects())
+    {
+        auto player = dynamic_pointer_cast<Player>(obj);
+        if(player != nullptr)
+        {
+            Vector2DF player_pos = player->GetPosition();
+            Vector2DF bullet_pos = GetPosition();
+            float distance = (player_pos - bullet_pos).GetLength();
+            if(distance < player->GetRadius() + GetRadius())
+            {
+                player->Dispose();
+                is_shoot = true;
+            }
+        }
+    }
+    if(is_shoot) Dispose();
+
     // 描画位置の設定
     Vector2DF position = GetPosition();
     position += Velocity;

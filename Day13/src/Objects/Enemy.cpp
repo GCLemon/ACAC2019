@@ -1,5 +1,6 @@
 #include "Enemy.hpp"
 #include "EnemyBullet.hpp"
+#include "PlayerBullet.hpp"
 
 // Lua 側で弾を打つ関数
 int Launch(lua_State* state)
@@ -39,10 +40,14 @@ int Launch(lua_State* state)
         );
 
     // "GameLayer" という名前から敵弾を追加するレイヤーを探す
-    shared_ptr<Layer2D> game_layer;
+    shared_ptr<Layer2D> game_layer = nullptr;
     for(auto layer : Engine::GetCurrentScene()->GetLayers())
         if(layer->GetName() == u"GameLayer")
-            game_layer = dynamic_pointer_cast<Layer2D>(layer);
+        {
+            // Layer2Dにキャストできることを確認してから代入する.
+            auto l = dynamic_pointer_cast<Layer2D>(layer);
+            if(l != nullptr) game_layer = l;
+        }
 
     // 敵弾を追加する
     game_layer->AddObject(enemy_bullet);
@@ -66,6 +71,9 @@ Enemy::Enemy(Vector2DF position)
 
     // オブジェクトの描画位置の設定
     SetPosition(position);
+
+    // 当たり判定の半径の設定
+    Radius = GetTexture()->GetSize().X * 0.5f;
 
     // 敵の動作を制御するステートを作成し,スクリプトをファイルから読み込み
     enemy_state = luaL_newstate();
@@ -96,8 +104,15 @@ Enemy::Enemy(Vector2DF position)
     lua_setglobal(enemy_movement, "enemy");
 }
 
+Enemy::~Enemy()
+{
+    // 使い終わった Lua ステートは必ず close する
+    lua_close(enemy_state);
+}
+
 void Enemy::OnUpdate()
 {
+    // コルーチンの実行
     lua_resume(enemy_movement, nullptr, 0);
 
     // Luaで保存されている敵機の情報を読み出し
@@ -107,10 +122,12 @@ void Enemy::OnUpdate()
     lua_getfield(enemy_movement, -2, "y");
 
     // ポジションの設定
-    SetPosition(
-        Vector2DF(
-            (float)lua_tonumber(enemy_movement, -2),
-            (float)lua_tonumber(enemy_movement, -1)
-        )
+    Vector2DF position = Vector2DF(
+        (float)lua_tonumber(enemy_movement, -2),
+        (float)lua_tonumber(enemy_movement, -1)
     );
+    SetPosition(position);
+
+    // コルーチン以外の要素をポップする
+    lua_pop(enemy_movement, lua_gettop(enemy_movement) - 1);
 }

@@ -29,8 +29,8 @@ class Enemy : public TextureObject2D
 private:
 
     // 敵機の動きを制御する Lua ステート
-    lua_State* enemy_state;
-    lua_State* enemy_movement;
+    lua_State* EnemyState;
+    lua_State* EnemyMovement;
 
     // 当たり判定を行う時の半径
     float Radius;

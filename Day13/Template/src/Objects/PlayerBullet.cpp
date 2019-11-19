@@ -1,3 +1,10 @@
+//////////////////////////////////////////////////
+//
+//    PlayerBullet.cpp
+//    自機の弾のクラスを実装する
+//
+
+
 #include "PlayerBullet.hpp"
 
 PlayerBullet::PlayerBullet(Vector2DF position)

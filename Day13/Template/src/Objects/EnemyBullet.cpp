@@ -1,3 +1,9 @@
+//////////////////////////////////////////////////
+//
+//    EnemyBullet.hpp
+//    敵機の弾のクラスを実装する
+//
+
 #include "EnemyBullet.hpp"
 #include "Player.hpp"
 

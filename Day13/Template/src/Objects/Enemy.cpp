@@ -1,3 +1,10 @@
+//////////////////////////////////////////////////
+//
+//    Enemy.cpp
+//    敵機のクラスを実装する
+//    ここに組み込みスクリプトを実装していく
+//
+
 #include "Enemy.hpp"
 #include "EnemyBullet.hpp"
 #include "PlayerBullet.hpp"
@@ -45,7 +52,7 @@ Enemy::Enemy(Vector2DF position)
 Enemy::~Enemy()
 {
     // 使い終わった Lua ステートは必ず close する
-    lua_close(enemy_state);
+    lua_close(EnemyState);
 }
 
 void Enemy::OnUpdate()

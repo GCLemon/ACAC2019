@@ -1,7 +1,7 @@
   
 -- 敵の動きを記述する Lua スクリプト
 -- コルーチンを利用している
-function enemy_movement()
+function EnemyMovement()
     while true do
         for i = 1,30 do
             enemy.position.x = enemy.position.x + 5;

@@ -15,10 +15,6 @@ int main(int argc, char** argv)
     shared_ptr<Scene> scene = make_shared<Scene>();
     shared_ptr<Layer2D> layer = make_shared<Layer2D>();
 
-    // レイヤーに自機の追加
-    shared_ptr<Player> player = make_shared<Player>();
-    layer->AddObject(player);
-
     // レイヤーに敵機の追加
     shared_ptr<Enemy> enemy = make_shared<Enemy>(Vector2DF(100, 100));
     layer->AddObject(enemy);

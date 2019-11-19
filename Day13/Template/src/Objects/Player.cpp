@@ -1,3 +1,9 @@
+//////////////////////////////////////////////////
+//
+//    Player.cpp
+//    自機のクラスを実装する
+//
+
 #include "Player.hpp"
 #include "PlayerBullet.hpp"
 

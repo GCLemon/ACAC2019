@@ -39,14 +39,6 @@ GameScene::GameScene()
         lua_close(StageState);
         exit(0);
     }
-
-    // コルーチンを実行するためのスレッドを生成
-    StageMovement = lua_newthread(StageState);
-    lua_getglobal(StageMovement, "stage_movement");
-
-    // 敵を追加する関数を Lua スクリプトに公開
-    lua_pushcfunction(StageMovement, &AddEnemy);
-    lua_setglobal(StageMovement, "add_enemy");
 }
 
 GameScene::~GameScene()

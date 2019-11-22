@@ -1,6 +1,6 @@
 -- ステージを記述する Lua スクリプト
 -- コルーチンを利用している
-function stage_movement()
+function StateMovement()
     while true do
         for i = 1,120 do
             coroutine.yield();

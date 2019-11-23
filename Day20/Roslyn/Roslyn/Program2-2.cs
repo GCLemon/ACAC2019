@@ -35,7 +35,7 @@ namespace Roslyn
 
 
                 // スクリプト実行
-                var state = script.RunAsync(new GlobalParams { X = 56, Y = 7 });
+                script.RunAsync(new GlobalParams { X = 56, Y = 7 });
             }
 
             // スクリプト実行時に発生した例外

@@ -1,7 +1,7 @@
 ﻿//////////////////////////////////////////////////
 //
 //    Program4.cs
-//    C# スクリプトのオブジェクト指向的(?)な使い方
+//    C# スクリプトでインスタンスの内部状態を制御する
 //
 
 using System;
@@ -14,47 +14,42 @@ namespace Roslyn
 {
     public class Program4
     {
-        // プレイヤークラス
-        public class Player
+        // 敵機のクラス
+        public class Enemy
         {
-            // プレイヤーごとに保存するスクリプト
+            // 敵機ごとに保存するスクリプト
             private readonly Script PlayerScript;
 
-            // プレイヤーの内部状態
-            public int Experience;
-            public int ExperienceThreshold;
-            public int Level;
+            // 敵機の内部状態
+            public int FrameCount;
+            public double Position_X;
+            public double Position_Y;
 
-            public Player()
+            public Enemy()
             {
                 // 変数の初期化
-                Experience = 0;
-                ExperienceThreshold = 5;
-                Level = 1;
+                Position_X = 320;
+                Position_Y = 160;
 
                 // スクリプトの実行時オプション
                 var option = ScriptOptions.Default.WithImports("System");
 
                 // ファイルからスクリプトを作成
                 var stream = File.OpenRead("Scripts/Script4.csx");
-                PlayerScript = CSharpScript.Create(stream, option, typeof(Player));
+                PlayerScript = CSharpScript.Create(stream, option, typeof(Enemy));
             }
 
-            // レベルアップする
-            public void LevelUp()
-            {
-                // レベルをあげる
-                ++Level;
-
-                // 次のレベルアップ時の閾値を設定する
-                ExperienceThreshold += 3 + Level * 2;
-            }
-
-            // Playerの更新処理
+            // 敵機の更新処理
             public void Update()
             {
                 // スクリプトを実行する
                 PlayerScript.RunAsync(this);
+
+                // 実行後の内部状態を出力
+                Console.WriteLine("X = {0}, Y = {1}", Position_X, Position_Y);
+
+                // フレーム数をカウント
+                ++FrameCount;
             }
         }
 
@@ -62,11 +57,11 @@ namespace Roslyn
         {
             try
             {
-                // プレイヤーのインスタンスの作成
-                var player = new Player();
+                // 敵機のインスタンスの作成
+                var enemy = new Enemy();
 
-                // プレイヤーの更新処理を30回繰り返す
-                for (int i = 0; i < 30; ++i) player.Update();
+                // 敵機の更新処理を30回繰り返す
+                for (int i = 0; i < 30; ++i) enemy.Update();
             }
 
             // スクリプト実行時に発生した例外

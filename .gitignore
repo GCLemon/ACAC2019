@@ -95,6 +95,7 @@ $RECYCLE.BIN/
 [Rr]eleases/*
 [Bb]in/*
 ![Bb]in/[Dd]ebug/Scripts
+![Bb]in/[Dd]ebug/script*.lua
 x64/
 x86/
 bld/

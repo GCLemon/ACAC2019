@@ -96,6 +96,8 @@ $RECYCLE.BIN/
 [Bb]in/*
 ![Bb]in/[Dd]ebug/Scripts
 ![Bb]in/[Dd]ebug/script*.lua
+![Bb]in/[Dd]ebug/script*.py
+![Bb]in/[Dd]ebug/script*.rb
 x64/
 x86/
 bld/
